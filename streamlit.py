@@ -1,5 +1,5 @@
 import streamlit as st
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings import OpenAIEmbeddings
@@ -7,8 +7,9 @@ from langchain.vectorstores import FAISS
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from langchain.chat_models import ChatOpenAI
+from langchain import OpenAI
 from htmlTemplate import css, bot_template, user_template
-
+OpenAI.api_key = st.secrets["OPENAI_API_KEY"]
 def get_pdf_text(pdf_docs):
     text=""
     for pdf in pdf_docs:
@@ -55,7 +56,8 @@ def handle_userinput(user_question):
                 "{{MSG}}", message.content), unsafe_allow_html=True)
    
 def main():
-    load_dotenv()
+    #load_dotenv()
+    OpenAI.api_key = st.secrets["OPENAI_API_KEY"]
     st.set_page_config(page_title = "chat with multiple PDFs", page_icon = ":books")
     st.write(css, unsafe_allow_html=True)
     if "conversation" not in st.session_state:
